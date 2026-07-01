@@ -1,7 +1,7 @@
 # WEKA CSI for Multi-Tenant Kubernetes
 ### Giving a tenant limited, scoped credentials instead of cluster-admin
 
-**Prepared for the Coupang platform team — WEKA Technical Services**
+**Prepared for the Coupang platform team — WEKA Premium Support**
 Follow-up to the 2026-06-30 status call. All steps below were validated end-to-end
 against **WEKA 4.4.10** with **CSI plugin v2.8.8** using directory-backed (`dir/v1`)
 volumes.
