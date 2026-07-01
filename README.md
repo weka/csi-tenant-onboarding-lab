@@ -29,34 +29,35 @@ least-privilege alternatives.
 | Isolation strength | strong, native to WEKA | weaker — mitigations documented |
 
 Both examples use:
+- **Directory-backed (`dir/v1`) volumes** — folder-based PVCs, matching Coupang's usage.
 - **Stateless, CSI-managed client** — no manual `weka agent install` on the tenant host.
 - The tenant runs a **single-node k8s** cluster on their baremetal host.
 
-> **Provisioning mode is still open** — see [docs/OPEN-QUESTIONS.md](docs/OPEN-QUESTIONS.md).
-> The 2026-06-30 call referenced **folder-based (directory) PVCs**; the initial lab
-> scoping picked **filesystem-backed** PVCs. These have different credential
-> requirements, so we resolve this before writing the example manifests.
+Manifests are derived from the official
+[csi-wekafs `dynamic_directory` example](https://github.com/weka/csi-wekafs/tree/master/examples/dynamic_directory)
+and the WEKA role model — see [docs/REFERENCES.md](docs/REFERENCES.md).
 
 ## Layout
 
 ```
 docs/
   secrets-and-access.md   # ← core deliverable: exact creds + role scope per model
+  REFERENCES.md           # official csi-wekafs examples + Sergey's design pages + role model
   architecture.md         # WEKA cluster ⇄ tenant k8s host; where the trust boundary sits
   provider-runbook.md     # what the WEKA cluster operator does to onboard a tenant
   tenant-runbook.md       # what the tenant does on their host (k8s + CSI install)
-  OPEN-QUESTIONS.md       # decisions still to confirm before manifests are authoritative
+  OPEN-QUESTIONS.md       # remaining decisions (snapshots, MT 2.0, exact min role)
 examples/
-  01-org-tenant/          # multi-tenant via a WEKA Organization
-  02-root-org-tenant/     # shared cluster, root org + dedicated filesystem
+  01-org-tenant/          # dir/v1 via a dedicated WEKA Organization (recommended)
+  02-root-org-tenant/     # dir/v1 on root org + dedicated filesystem
 scripts/
-  provider/               # operator-side onboarding helpers
-  tenant/                 # tenant-side install + smoke test
+  tenant/install-csi.sh   # helm install of the CSI plugin
 ```
 
 ## Status
 
-Scaffolding stage. `docs/secrets-and-access.md` is a first pass pending review of
-the official [csi-wekafs examples](https://github.com/weka/csi-wekafs/tree/master/examples)
-and the internal CSI setup pages. Example manifests are held until the provisioning
-mode is confirmed. Nothing here has been run end-to-end yet.
+Manifests written and verified against the official csi-wekafs examples + WEKA role
+model. **Not yet run end-to-end** on the lab cluster — that's the next step (capture
+output into each example's `verify.md`). Remaining decisions in
+[docs/OPEN-QUESTIONS.md](docs/OPEN-QUESTIONS.md): snapshots, Multi-tenancy 2.0, and
+confirming the exact minimum WEKA role/CLI syntax against the deployed version.

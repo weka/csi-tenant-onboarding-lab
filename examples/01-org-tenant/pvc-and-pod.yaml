@@ -1,0 +1,32 @@
+# Smoke test: a directory-backed PVC + a pod that writes to it every 10s.
+# Proves the tenant's scoped credentials can provision + mount WEKA storage.
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-wekafs-dir-tenant-a
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: storageclass-wekafs-dir-tenant-a
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: csi-app-on-dir-tenant-a
+spec:
+  containers:
+    - name: writer
+      image: busybox
+      command: ["/bin/sh", "-c", "while true; do date >> /data/temp.txt; sleep 10; done"]
+      volumeMounts:
+        - name: wekafs
+          mountPath: /data
+  volumes:
+    - name: wekafs
+      persistentVolumeClaim:
+        claimName: pvc-wekafs-dir-tenant-a
