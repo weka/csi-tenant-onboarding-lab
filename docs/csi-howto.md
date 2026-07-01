@@ -148,10 +148,12 @@ sudo weka local setup container --name client --client \
 weka local ps          # STATE=Running, STATUS=Ready
 ```
 
-**b. Install the CSI plugin.**
+**b. Install the CSI plugin.** Pin the chart `--version` to match your deployed CSI
+version so behaviour matches your environment (this lab used **2.8.1**).
 ```bash
 helm repo add csi-wekafs https://weka.github.io/csi-wekafs && helm repo update
 helm upgrade --install csi-wekafs csi-wekafs/csi-wekafsplugin \
+  --version 2.8.1 \
   --namespace csi-wekafs --create-namespace
   # if the WEKA API uses a self-signed cert, add:
   #   --set pluginConfig.allowInsecureHttps=true   (or provide caCertificate in the Secret)

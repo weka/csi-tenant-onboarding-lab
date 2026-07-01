@@ -45,6 +45,7 @@ weka local ps        # STATE=Running, STATUS=Ready
 ```bash
 helm repo add csi-wekafs https://weka.github.io/csi-wekafs && helm repo update
 helm upgrade --install csi-wekafs csi-wekafs/csi-wekafsplugin \
+  --version 2.8.1 \                               # pin to match the customer's CSI version
   --namespace csi-wekafs --create-namespace \
   --set pluginConfig.allowInsecureHttps=true      # lab self-signed API; prod: use caCertificate
 kubectl -n csi-wekafs get pods     # controller 5/5, node 3/3
