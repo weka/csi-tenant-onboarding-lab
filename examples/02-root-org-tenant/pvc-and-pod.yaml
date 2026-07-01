@@ -1,13 +1,19 @@
-# Smoke test: a directory-backed PVC + a pod that writes to it every 10s.
+# Smoke test: a directory-backed PVC + a pod that writes to it every 5s.
+# Exact manifest validated in the lab on 2026-07-01 (see verify.md).
+#
+# Observed result:
+#   pvc-tenant-b  Bound  1Gi  RWX  sc-tenant-b-dir
+#   PV handle:    dir/v1/tenant-b-fs/csi-volumes/pvc-538f5e7e-...
+#   pod app-tenant-b  1/1 Running; /data is a `type wekafs` mount, read/write OK
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: pvc-wekafs-dir-tenant-a
+  name: pvc-tenant-b
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: storageclass-wekafs-dir-tenant-a
+  storageClassName: sc-tenant-b-dir
   volumeMode: Filesystem
   resources:
     requests:
@@ -16,16 +22,16 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: csi-app-on-dir-tenant-a
+  name: app-tenant-b
 spec:
   containers:
     - name: writer
       image: busybox
-      command: ["/bin/sh", "-c", "while true; do date >> /data/temp.txt; sleep 10; done"]
+      command: ["/bin/sh", "-c", "while true; do date >> /data/temp.txt; sleep 5; done"]
       volumeMounts:
         - name: wekafs
           mountPath: /data
   volumes:
     - name: wekafs
       persistentVolumeClaim:
-        claimName: pvc-wekafs-dir-tenant-a
+        claimName: pvc-tenant-b

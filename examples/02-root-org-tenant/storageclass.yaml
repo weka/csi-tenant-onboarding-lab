@@ -1,25 +1,25 @@
 # Model B — directory-backed (dir/v1) StorageClass, pinned to the tenant's
 # dedicated filesystem in the root org. The filesystemName pin + quota are the
 # ONLY fence here (no org boundary), so getting this right matters.
-# Derived from official examples/dynamic_directory/storageclass-wekafs-dir-api.yaml.
+# Exact StorageClass validated in the lab on 2026-07-01 (see verify.md).
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: storageclass-wekafs-dir-tenant-a
+  name: sc-tenant-b-dir
 provisioner: csi.weka.io
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 allowVolumeExpansion: true
 parameters:
   volumeType: dir/v1
-  filesystemName: tenant-a-fs            # dedicated FS the tenant is fenced to
+  filesystemName: tenant-b-fs            # dedicated FS the tenant is fenced to
   capacityEnforcement: HARD
 
   #ownerUid: "1000"
   #ownerGid: "1000"
   #permissions: "0775"
 
-  csi.storage.k8s.io/provisioner-secret-name: &secretName csi-wekafs-api-secret
+  csi.storage.k8s.io/provisioner-secret-name: &secretName csi-wekafs-api-secret-b
   csi.storage.k8s.io/provisioner-secret-namespace: &secretNamespace csi-wekafs
   csi.storage.k8s.io/controller-publish-secret-name: *secretName
   csi.storage.k8s.io/controller-publish-secret-namespace: *secretNamespace
