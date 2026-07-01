@@ -6,12 +6,12 @@ provider "google" {
   project                     = var.project
   region                      = var.region
   zone                        = var.zone
-  impersonate_service_account = var.impersonate_service_account
+  impersonate_service_account = var.impersonate_service_account != "" ? var.impersonate_service_account : null
 }
 
 provider "google-beta" {
   project                     = var.project
   region                      = var.region
   zone                        = var.zone
-  impersonate_service_account = var.impersonate_service_account
+  impersonate_service_account = var.impersonate_service_account != "" ? var.impersonate_service_account : null
 }
