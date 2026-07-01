@@ -118,3 +118,5 @@ Both models were run end-to-end in a lab: a tenant's single-node Kubernetes clus
 provisioned and mounted `dir/v1` PVCs against WEKA using only its scoped `csi`-role
 credentials — PVCs Bound, pods reading/writing, and (Model A) full org isolation
 from other tenants. No admin credentials were used anywhere in the tenant's config.
+
+Full command transcript with the actual output: [lab-evidence.md](lab-evidence.md).

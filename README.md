@@ -58,8 +58,9 @@ scripts/
 
 ✅ **Validated end-to-end on a live lab** (2026-07-01): traditional WEKA cluster
 4.4.10.171 on GCP + a single-node k3s tenant, both models provisioning `dir/v1`
-volumes with scoped **`csi`-role** credentials. Evidence in each example's
-`verify.md`; full runbook in [lab/LAB.md](lab/LAB.md). Key finding: WEKA has a
+volumes with scoped **`csi`-role** credentials. Full command transcript in
+[docs/lab-evidence.md](docs/lab-evidence.md); per-model evidence in each example's
+`verify.md`; runbook in [lab/LAB.md](lab/LAB.md). Key finding: WEKA has a
 dedicated **`csi`** role — the least-privilege answer to "not admin credentials."
 
 Remaining (see [docs/OPEN-QUESTIONS.md](docs/OPEN-QUESTIONS.md)): snapshots demo and
