@@ -1,5 +1,8 @@
 # Example 01 — dedicated WEKA Organization (recommended)
 
+![Org-based example demo](../../docs/media/org-example.gif)
+
+
 Multi-tenant isolation via a dedicated WEKA **Organization** + an
 **OrganizationAdmin** user scoped to it. Directory-backed (`dir/v1`) volumes, to
 the common folder-based pattern. See

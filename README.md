@@ -12,6 +12,12 @@ tenant-scoped credentials instead of cluster-admin credentials**.
 **Start here:** [`docs/csi-howto.md`](docs/csi-howto.md) — the full how-to walkthrough
 (also as a [PDF](docs/csi-howto.pdf)). Short version: [`docs/csi-guidance.md`](docs/csi-guidance.md).
 
+### Demo — org-based example (Model A), on CSI 2.8.1
+
+![Org-based tenant example: provision a dir/v1 volume with a scoped csi-role user in org tenant-a](docs/media/org-example.gif)
+
+*Recorded against the live lab ([asciinema cast](docs/media/org-example.cast) — `asciinema play docs/media/org-example.cast`).*
+
 ## The problem this addresses
 
 The path-of-least-resistance CSI install drops **cluster-admin** WEKA credentials
