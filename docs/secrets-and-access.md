@@ -85,10 +85,10 @@ with the `csi` role, the tenant gets least-privilege *and* org isolation.
 
 ## Model A — dedicated WEKA Organization (strong isolation) — recommended
 
-Operator creates an **Organization** for the tenant + an **OrganizationAdmin** user
-scoped to it. For **directory-backed** volumes, the operator also
-pre-creates the filesystem the tenant's PVCs carve directories from (fs-groups are
-cluster-level, so the FS is created inside the org by the operator).
+Operator creates an **Organization** for the tenant, an **org-admin** to manage it,
+and a dedicated **`csi`-role** user for the CSI credential. For **directory-backed**
+volumes the operator also pre-creates the filesystem the tenant's PVCs carve
+directories from (fs-groups are cluster-level, so the FS is created inside the org).
 
 **Secret handed to the tenant** (`examples/01-org-tenant/`):
 ```yaml
@@ -100,32 +100,31 @@ stringData:
   endpoints: 10.0.0.11:14000,10.0.0.12:14000
 ```
 
-**Blast radius:** confined to `tenant-a`. The user cannot enumerate or touch
-other tenants' filesystems; capacity is bounded by the org. For `dir/v1` an
-OrganizationAdmin is a clean scoped choice (a `regular` org user may also suffice —
-see OPEN-QUESTIONS #4). Recommended for a real multi-tenant platform.
+**Blast radius:** confined to `tenant-a`. The `csi`-role user cannot enumerate or
+touch other tenants' filesystems; capacity is bounded by the org. Recommended for a
+real multi-tenant platform.
 
 ---
 
 ## Model B — root org, dedicated filesystem (simpler, weaker)
 
-No Organization. The tenant gets a **non-admin** (`regular`) user in the root org,
+No Organization. The tenant gets a dedicated **`csi`-role** user in the root org,
 fenced to a pre-created filesystem via the StorageClass + a capacity quota.
 
 **Secret handed to the tenant** (`examples/02-root-org-tenant/`):
 ```yaml
 stringData:
-  username: tenant-a-csi
+  username: tenant-b-csi
   organization: Root
   password: <tenant-a-password>
   scheme: https
   endpoints: 10.0.0.11:14000,10.0.0.12:14000
 ```
 
-**Blast radius:** a `regular` user in the root org can **view all filesystems
-cluster-wide** — there is no org boundary. Isolation relies entirely on (a) the
-non-admin role, (b) the StorageClass pinning `filesystemName`, and (c) a capacity
-quota. Reserve Model B for single-tenant or trusted setups; document the gap.
+**Blast radius:** a root-org user has **no org boundary** to contain it. Isolation
+relies on (a) the least-privilege `csi` role, (b) the StorageClass pinning
+`filesystemName`, and (c) a capacity quota. Reserve Model B for single-tenant or
+trusted setups; document the gap.
 
 ---
 

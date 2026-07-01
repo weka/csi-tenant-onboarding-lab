@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Install the WEKA CSI plugin on the tenant's single-node k8s cluster.
-# Stateless / CSI-managed client (no manual `weka agent install` on the host).
+# Prereq: the WEKA client must already be installed + running on the node (see below).
 set -euo pipefail
 
 NS=csi-wekafs

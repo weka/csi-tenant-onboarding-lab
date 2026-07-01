@@ -9,6 +9,9 @@ tenant-scoped credentials instead of cluster-admin credentials**.
 > limited tenant- or filesystem-specific credentials instead of admin credentials —
 > in runnable form.
 
+**Start here:** [`docs/csi-howto.md`](docs/csi-howto.md) — the full how-to walkthrough
+(also as a [PDF](docs/csi-howto.pdf)). Short version: [`docs/csi-guidance.md`](docs/csi-guidance.md).
+
 ## The problem this addresses
 
 The path-of-least-resistance CSI install drops **cluster-admin** WEKA credentials
@@ -23,14 +26,15 @@ least-privilege alternatives.
 |---|---|---|
 | WEKA isolation | Dedicated WEKA **Organization** | Root org, **dedicated filesystem** |
 | Secret `organization` | tenant org name | `Root` |
-| Handed-over user | **OrgAdmin scoped to that org** | non-admin user, fenced by filesystem + quota |
+| Handed-over user | **`csi`-role user** scoped to that org | **`csi`-role user** in root org, fenced by filesystem + quota |
 | Tenant can see | only their org's filesystems/objects | (relies on StorageClass + role to fence) |
 | Isolation strength | strong, native to WEKA | weaker — mitigations documented |
 
 Both examples use:
+- The dedicated **`csi`** role for the tenant credential — least-privilege, never admin.
 - **Directory-backed (`dir/v1`) volumes** — folder-based PVCs (the common tenant pattern).
-- **Stateless, CSI-managed client** — no manual `weka agent install` on the tenant host.
-- The tenant runs a **single-node k8s** cluster on their baremetal host.
+- The tenant runs a **single-node k8s** cluster on their baremetal host, with the
+  **WEKA client installed on the node** (the CSI wekafs transport is not agentless).
 
 Manifests are derived from the official
 [csi-wekafs `dynamic_directory` example](https://github.com/weka/csi-wekafs/tree/master/examples/dynamic_directory)
@@ -40,12 +44,16 @@ and the WEKA role model — see [docs/REFERENCES.md](docs/REFERENCES.md).
 
 ```
 docs/
-  secrets-and-access.md   # ← core deliverable: exact creds + role scope per model
-  REFERENCES.md           # official csi-wekafs examples + WEKA role model
+  csi-howto.md            # ← full how-to walkthrough (source for the PDF)
+  csi-howto.pdf           # send-ready PDF
+  csi-guidance.md         # short quick-reference guidance
+  secrets-and-access.md   # exact creds + role scope per model
   architecture.md         # WEKA cluster ⇄ tenant k8s host; where the trust boundary sits
   provider-runbook.md     # what the WEKA cluster operator does to onboard a tenant
-  tenant-runbook.md       # what the tenant does on their host (k8s + CSI install)
-  OPEN-QUESTIONS.md       # remaining decisions (snapshots, MT 2.0, exact min role)
+  tenant-runbook.md       # what the tenant does on their host (client + CSI install)
+  lab-evidence.md         # captured command transcript from the lab run
+  REFERENCES.md           # official csi-wekafs examples + WEKA role model
+  OPEN-QUESTIONS.md       # notes: snapshots caveat, Multi-tenancy 2.0
 examples/
   01-org-tenant/          # dir/v1 via a dedicated WEKA Organization (recommended)
   02-root-org-tenant/     # dir/v1 on root org + dedicated filesystem
