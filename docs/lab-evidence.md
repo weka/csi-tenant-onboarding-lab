@@ -7,6 +7,11 @@ Kubernetes cluster consuming a traditional WEKA cluster over CSI with scoped
 Topology: WEKA cluster `csi-tenant` (4.4.10.171, 6 backends, UDP) + one tenant VM
 (`csi-tenant-tenant`, Ubuntu 22.04) running single-node k3s + WEKA CSI v2.8.8.
 
+> **Re-validated on CSI v2.8.1** (matching a customer's pinned version) — identical
+> results: both models' PVCs Bound, `wekafs` mounts, pods reading/writing, and org
+> isolation. 2.8.1 differs only in image tag (`quay.io/weka.io/csi-wekafs:v2.8.1`)
+> and has the same `allowInsecureHttps` value + `dir/v1` StorageClass params.
+
 ---
 
 ## 1. Provider side — the WEKA cluster
