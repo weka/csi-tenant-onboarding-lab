@@ -1,0 +1,12 @@
+# Never commit real credentials — only *.example.yaml templates
+*secret*.yaml
+!*secret*.example.yaml
+*.key
+*.pem
+kubeconfig
+kubeconfig*
+.env
+
+# Local scratch
+*.log
+*.tmp
