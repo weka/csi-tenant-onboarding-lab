@@ -137,6 +137,17 @@ trusted setups; document the gap.
   filesystem-create privilege: OrganizationAdmin within the org (Model A) or a
   cluster-level right (Model B). Higher blast radius. Documented alternative only.
 
+## Snapshots (data protection)
+
+A CSI snapshot of a **directory-backed (`dir/v1`)** volume is actually a
+**whole-filesystem snapshot** — it captures every directory on that filesystem, so
+it is wasteful and is **disabled by default** (enable with
+`pluginConfig.allowedOperations.snapshotDirectoryVolumes=true`, which requires a
+plugin reinstall). For clean per-volume snapshots and clones, use **snapshot-backed
+volumes** (`volumeType: weka/v2`, the official
+[`dynamic_snapshot`](https://github.com/weka/csi-wekafs/tree/master/examples/dynamic_snapshot)
+example) instead.
+
 ## Operational hygiene (both models)
 
 - One WEKA user **per tenant**, named for the tenant — never shared, never `admin`.

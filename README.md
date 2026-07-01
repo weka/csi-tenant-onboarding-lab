@@ -53,7 +53,6 @@ docs/
   tenant-runbook.md       # what the tenant does on their host (client + CSI install)
   lab-evidence.md         # captured command transcript from the lab run
   REFERENCES.md           # official csi-wekafs examples + WEKA role model
-  OPEN-QUESTIONS.md       # notes: snapshots caveat, Multi-tenancy 2.0
 examples/
   01-org-tenant/          # dir/v1 via a dedicated WEKA Organization (recommended)
   02-root-org-tenant/     # dir/v1 on root org + dedicated filesystem
@@ -70,5 +69,6 @@ volumes with scoped **`csi`-role** credentials. Full command transcript in
 `verify.md`; runbook in [lab/LAB.md](lab/LAB.md). Key finding: WEKA has a
 dedicated **`csi`** role — the least-privilege answer to "not admin credentials."
 
-Remaining (see [docs/OPEN-QUESTIONS.md](docs/OPEN-QUESTIONS.md)): snapshots demo and
-Multi-tenancy 2.0.
+Possible extensions: a snapshot-backed (`weka/v2`) example (see the snapshots note in
+[docs/secrets-and-access.md](docs/secrets-and-access.md#snapshots-data-protection)) and
+Multi-tenancy 2.0 alignment.
