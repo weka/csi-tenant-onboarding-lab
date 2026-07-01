@@ -1,6 +1,6 @@
 variable "project" {
   description = "GCP project ID"
-  default     = "team-cst"
+  default     = "your-gcp-project"
 }
 
 variable "region" {
@@ -23,7 +23,7 @@ variable "weka_version" {
 }
 
 variable "get_weka_io_token" {
-  description = "get.weka.io download token. Pass via TF_VAR_get_weka_io_token (fetched from Secret Manager get-weka-io-rodney-peck)."
+  description = "get.weka.io download token. Pass via TF_VAR_get_weka_io_token (fetched from Secret Manager get-weka-io-<your-user>)."
   type        = string
   sensitive   = true
   default     = ""
@@ -54,5 +54,5 @@ variable "allow_ssh_cidrs" {
 }
 
 variable "owner" {
-  default = "rodney-peck"
+  default = "weka-lab"
 }

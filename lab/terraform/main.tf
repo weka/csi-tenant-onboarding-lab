@@ -1,7 +1,7 @@
 # Traditional (non-operator) WEKA cluster via the official weka/weka/gcp module.
 # This is the "provider" WEKA cluster the tenant consumes over CSI.
-# Invocation mirrors the proven virtiofs-bench module (UDP mode, no DPDK,
-# reuse the shared weka-deployment SA, no auto-created clients).
+# Configured for UDP mode, no DPDK, reusing a shared weka-deployment SA,
+# with no auto-created clients (the tenant node is our client).
 module "weka_cluster" {
   source  = "weka/weka/gcp"
   version = "~> 4.0"
@@ -23,7 +23,7 @@ module "weka_cluster" {
   nic_number           = 1
   install_cluster_dpdk = false
 
-  # Reuse the shared SA that already exists in team-cst.
+  # Reuse the shared SA that already exists in your-gcp-project.
   sa_email = "weka-deployment@${var.project}.iam.gserviceaccount.com"
 
   allow_ssh_cidrs = var.allow_ssh_cidrs

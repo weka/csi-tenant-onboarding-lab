@@ -4,7 +4,7 @@ End-to-end lab that stands up a **traditional (non-operator) WEKA cluster** on G
 and a separate **tenant** node running its own single-node k8s (k3s) that consumes
 the cluster over the WEKA CSI plugin with **tenant-scoped credentials**.
 
-- GCP project: `team-cst` (auth: `rodney.peck@weka.io` ADC)
+- GCP project: `your-gcp-project` (auth: `<your-gcloud-user>` ADC)
 - WEKA: 4.4.10.171, 6× c2-standard-16 backends, UDP mode, dedicated VPC
 - Tenant: 1× n2-standard-4, Ubuntu 22.04 (kernel < 6.17 so wekafs compiles), k3s
 - Terraform: `lab/terraform/` (reuses the official `weka/weka/gcp` module)
@@ -13,9 +13,9 @@ the cluster over the WEKA CSI plugin with **tenant-scoped credentials**.
 
 ```bash
 cd lab/terraform
-export CLOUDSDK_ACTIVE_CONFIG_NAME=default   # rodney.peck@weka.io / team-cst
+export CLOUDSDK_ACTIVE_CONFIG_NAME=default   # <your-gcloud-user> / your-gcp-project
 export TF_VAR_get_weka_io_token=$(gcloud secrets versions access latest \
-  --secret=get-weka-io-rodney-peck --project team-cst)
+  --secret=get-weka-io-<your-user> --project your-gcp-project)
 
 terraform init
 terraform apply           # ~15 min: WEKA cluster formation + tenant VM
@@ -26,7 +26,7 @@ terraform output          # backend_lb_ip, tenant_public_ip, helper_commands, ..
 Get the WEKA admin password:
 ```bash
 gcloud secrets versions access latest \
-  --secret=csi-tenant-csi-tenant-password --project team-cst \
+  --secret=csi-tenant-csi-tenant-password --project your-gcp-project \
   --format='get(payload.data)' | base64 -d
 ```
 

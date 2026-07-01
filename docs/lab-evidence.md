@@ -27,7 +27,7 @@ Two organizations — Root and the tenant's dedicated org (with a capacity quota
 $ weka org
 ID  NAME              ALLOCATED SSD  SSD QUOTA  ALLOCATED TOTAL  TOTAL QUOTA
  0  Root                  222.00 GB        0 B        222.00 GB          0 B
- 1  coupang-tenant-a      100.00 GB  300.00 GB        100.00 GB    300.00 GB
+ 1  tenant-a      100.00 GB  300.00 GB        100.00 GB    300.00 GB
 ```
 
 Scoped users — the tenant CSI users hold the dedicated **`CSI`** role, never admin:
@@ -38,7 +38,7 @@ weka-deployment  Internal  ClusterAdmin
 admin            Internal  ClusterAdmin
 tenant-b-csi     Internal  CSI        ← Model B credential
 
-$ weka user                          # inside org coupang-tenant-a
+$ weka user                          # inside org tenant-a
 USERNAME        SOURCE    ROLE
 tenant-a-admin  Internal  OrgAdmin
 tenant-a-csi    Internal  CSI         ← Model A credential
@@ -54,7 +54,7 @@ FILESYSTEM ID  FILESYSTEM NAME   USED SSD   AVAILABLE SSD
 2              tenant-b-fs       409.59 KB      100.00 GB    ← Model B (root org)
                                                              ← tenant-a-fs NOT visible here
 
-$ weka fs                            # inside org coupang-tenant-a
+$ weka fs                            # inside org tenant-a
 FILESYSTEM ID  FILESYSTEM NAME   USED SSD   AVAILABLE SSD
 3              tenant-a-fs       409.59 KB      100.00 GB    ← Model A, only visible in-org
 ```
@@ -108,7 +108,7 @@ csi-wekafs-api-secret-b   Opaque   9      23m
 
 # secret A decodes to the scoped user + tenant org (NOT admin / NOT Root):
 username     = tenant-a-csi
-organization = coupang-tenant-a
+organization = tenant-a
 ```
 
 PVCs **Bound**, PVs carrying `dir/v1` volume handles inside each tenant filesystem:

@@ -1,14 +1,14 @@
 # Verify — Model A (dedicated WEKA Organization)
 
 Captured from a live lab run on 2026-07-01. Traditional WEKA cluster
-`csi-tenant` (4.4.10.171, 6 backends, UDP) on GCP `team-cst`; tenant = single-node
+`csi-tenant` (4.4.10.171, 6 backends, UDP) on GCP `your-gcp-project`; tenant = single-node
 k3s on Ubuntu 22.04. See [../../lab/LAB.md](../../lab/LAB.md).
 
 ## WEKA-side (provider)
 
 ```
 # org + org-admin created in one command
-$ weka org add coupang-tenant-a tenant-a-admin '***' --ssd-quota 300GB --total-quota 300GB
+$ weka org add tenant-a tenant-a-admin '***' --ssd-quota 300GB --total-quota 300GB
 Organization with ID 1 created successfully.
 
 # filesystem created INSIDE the org (as the org admin)
@@ -17,7 +17,7 @@ $ weka fs add tenant-a-fs default 100GB
 # the scoped CSI user — dedicated 'CSI' role, NOT admin
 $ weka user add tenant-a-csi csi '***'
 
-$ weka user            # (in org coupang-tenant-a context)
+$ weka user            # (in org tenant-a context)
 USERNAME        SOURCE    ROLE
 tenant-a-admin  Internal  OrgAdmin
 tenant-a-csi    Internal  CSI

@@ -2,8 +2,8 @@
 
 ## 1. Provisioning mode — ✅ RESOLVED: directory-backed (`dir/v1`) is primary
 
-Coupang uses **folder-based (directory) PVCs** (`volumeType: dir/v1`), confirmed on
-the 2026-06-30 call. This is also the stronger least-privilege story: the operator
+Directory-backed (**folder-based**) PVCs (`volumeType: dir/v1`) are the target mode.
+This is also the stronger least-privilege story: the operator
 pre-creates the filesystem, so the tenant's CSI user only creates directories +
 quotas inside it — no filesystem-create right needed.
 
@@ -30,15 +30,13 @@ official `dynamic_directory` README:
 
 Decision needed: does the lab demo snapshots on dir/v1 (with the caveat) or add a
 snapshot-backed example? Leaning: mention the caveat in docs, defer a full snapshot
-example unless Coupang asks.
+example unless requested.
 
 ## 3. Multi-tenancy 2.0
 
-Dedicated MT 2.0 call planned the following week. Related strategic direction:
-Confluence one-pager *"Embedding Kubernetes in WEKA Backends to manage composable
-clusters"* explicitly names **Coupang + Core42** wanting managed multi-tenant
-composable clusters via the WEKA Operator. If MT 2.0 changes the org/credential
-model, capture the delta here.
+A future Multi-tenancy 2.0 capability may change the org/credential model (e.g.
+managed multi-tenant composable clusters via the WEKA Operator). If so, capture the
+delta here.
 
 ## 4. Exact minimum WEKA role — ✅ RESOLVED: the dedicated `csi` role
 

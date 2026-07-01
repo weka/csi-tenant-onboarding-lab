@@ -1,8 +1,7 @@
 # Configuring the WEKA CSI plugin with limited tenant credentials
 
-Guidance for the Coupang team (follow-up to the 2026-06-30 status call): how to
-give a tenant's Kubernetes cluster access to WEKA storage over the CSI plugin using
-**limited, tenant-scoped credentials instead of cluster-admin credentials.**
+How to give a tenant's Kubernetes cluster access to WEKA storage over the CSI plugin
+using **limited, tenant-scoped credentials instead of cluster-admin credentials.**
 
 All commands and manifests below were validated end-to-end against WEKA 4.4.10 with
 CSI plugin v2.8.8 and directory-backed (`dir/v1`) volumes.

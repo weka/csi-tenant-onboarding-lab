@@ -2,7 +2,7 @@
 
 Multi-tenant isolation via a dedicated WEKA **Organization** + an
 **OrganizationAdmin** user scoped to it. Directory-backed (`dir/v1`) volumes, to
-match Coupang's usage. See
+the common folder-based pattern. See
 [../../docs/secrets-and-access.md](../../docs/secrets-and-access.md#model-a--dedicated-weka-organization-strong-isolation-recommended).
 
 Files (these are the exact manifests validated in the lab — see `verify.md`):

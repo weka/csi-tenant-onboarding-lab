@@ -1,14 +1,12 @@
 # Secrets & access: giving a tenant CSI access without admin credentials
 
-The Coupang ask (2026-06-30 call): configure the WEKA CSI plugin to use **limited
-tenant-/filesystem-specific credentials instead of admin credentials**. This doc
-is the guidance; `examples/01` and `examples/02` are the runnable manifests.
+This document covers configuring the WEKA CSI plugin to use **limited
+tenant-/filesystem-specific credentials instead of admin credentials**. `examples/01`
+and `examples/02` are the runnable manifests.
 
 Verified against the official
 [csi-wekafs examples](https://github.com/weka/csi-wekafs/tree/master/examples) and
-the WEKA multi-tenancy role model (Confluence: *"Multiple Organizations in one weka
-cluster"*, SR space). See [REFERENCES.md](REFERENCES.md). Confirm CLI syntax and the
-exact minimum role against the WEKA version on the lab cluster before publishing.
+the WEKA multi-tenancy role model. See [REFERENCES.md](REFERENCES.md).
 
 ## What the tenant receives
 
@@ -88,7 +86,7 @@ with the `csi` role, the tenant gets least-privilege *and* org isolation.
 ## Model A — dedicated WEKA Organization (strong isolation) — recommended
 
 Operator creates an **Organization** for the tenant + an **OrganizationAdmin** user
-scoped to it. Because Coupang uses **directory-backed** volumes, the operator also
+scoped to it. For **directory-backed** volumes, the operator also
 pre-creates the filesystem the tenant's PVCs carve directories from (fs-groups are
 cluster-level, so the FS is created inside the org by the operator).
 
@@ -96,13 +94,13 @@ cluster-level, so the FS is created inside the org by the operator).
 ```yaml
 stringData:
   username: tenant-a-csi
-  organization: coupang-tenant-a     # ← the tenant's org, not Root
+  organization: tenant-a     # ← the tenant's org, not Root
   password: <tenant-a-password>
   scheme: https
   endpoints: 10.0.0.11:14000,10.0.0.12:14000
 ```
 
-**Blast radius:** confined to `coupang-tenant-a`. The user cannot enumerate or touch
+**Blast radius:** confined to `tenant-a`. The user cannot enumerate or touch
 other tenants' filesystems; capacity is bounded by the org. For `dir/v1` an
 OrganizationAdmin is a clean scoped choice (a `regular` org user may also suffice —
 see OPEN-QUESTIONS #4). Recommended for a real multi-tenant platform.
@@ -134,8 +132,8 @@ quota. Reserve Model B for single-tenant or trusted setups; document the gap.
 ## How provisioning mode changes the minimum privilege
 
 - **Directory-backed (`dir/v1`)** — operator pre-creates the filesystem; CSI only
-  creates directories + quotas inside it. **Lowest privilege.** This is Coupang's
-  mode and the primary example.
+  creates directories + quotas inside it. **Lowest privilege.** This is the
+  primary example.
 - **Filesystem-backed (`fs`)** — CSI creates a **new filesystem per PVC**, requiring
   filesystem-create privilege: OrganizationAdmin within the org (Model A) or a
   cluster-level right (Model B). Higher blast radius. Documented alternative only.

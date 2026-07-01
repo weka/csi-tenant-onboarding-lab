@@ -5,10 +5,9 @@ baremetal host and consumes storage from a shared **WEKA** cluster via the
 [WEKA CSI plugin](https://github.com/weka/csi-wekafs) — using **limited,
 tenant-scoped credentials instead of cluster-admin credentials**.
 
-> Origin: WEKA/Coupang weekly status call, 2026-06-30. Action item — provide the
-> Coupang team guidance on configuring CSI to use limited tenant- or
-> filesystem-specific credentials instead of admin credentials. This repo is that
-> guidance, in runnable form.
+> Purpose: guidance plus a validated lab for configuring the WEKA CSI plugin to use
+> limited tenant- or filesystem-specific credentials instead of admin credentials —
+> in runnable form.
 
 ## The problem this addresses
 
@@ -29,7 +28,7 @@ least-privilege alternatives.
 | Isolation strength | strong, native to WEKA | weaker — mitigations documented |
 
 Both examples use:
-- **Directory-backed (`dir/v1`) volumes** — folder-based PVCs, matching Coupang's usage.
+- **Directory-backed (`dir/v1`) volumes** — folder-based PVCs (the common tenant pattern).
 - **Stateless, CSI-managed client** — no manual `weka agent install` on the tenant host.
 - The tenant runs a **single-node k8s** cluster on their baremetal host.
 
@@ -42,7 +41,7 @@ and the WEKA role model — see [docs/REFERENCES.md](docs/REFERENCES.md).
 ```
 docs/
   secrets-and-access.md   # ← core deliverable: exact creds + role scope per model
-  REFERENCES.md           # official csi-wekafs examples + Sergey's design pages + role model
+  REFERENCES.md           # official csi-wekafs examples + WEKA role model
   architecture.md         # WEKA cluster ⇄ tenant k8s host; where the trust boundary sits
   provider-runbook.md     # what the WEKA cluster operator does to onboard a tenant
   tenant-runbook.md       # what the tenant does on their host (k8s + CSI install)
