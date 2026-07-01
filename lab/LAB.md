@@ -9,7 +9,16 @@ the cluster over the WEKA CSI plugin with **tenant-scoped credentials**.
 - Tenant: 1× n2-standard-4, Ubuntu 22.04 (kernel < 6.17 so wekafs compiles), k3s
 - Terraform: `lab/terraform/` (reuses the official `weka/weka/gcp` module)
 
+> **Recommended: run in a disposable project with SA impersonation** so a stray
+> command can never touch shared resources and your login needs near-zero standing
+> access. One-time: `scripts/provider/bootstrap-project.sh <project> <billing>`.
+> Full rationale + steps: [../docs/lab-isolation.md](../docs/lab-isolation.md).
+
 ## 1. Bring up the infrastructure
+
+Using the isolated flow (set `TF_VAR_project` + `TF_VAR_impersonate_service_account`
+per [../docs/lab-isolation.md](../docs/lab-isolation.md)); or directly against a
+project you own:
 
 ```bash
 cd lab/terraform

@@ -52,12 +52,14 @@ docs/
   provider-runbook.md     # what the WEKA cluster operator does to onboard a tenant
   tenant-runbook.md       # what the tenant does on their host (client + CSI install)
   lab-evidence.md         # captured command transcript from the lab run
+  lab-isolation.md        # run in a disposable project w/ minimal access (SA impersonation)
   REFERENCES.md           # official csi-wekafs examples + WEKA role model
 examples/
   01-org-tenant/          # dir/v1 via a dedicated WEKA Organization (recommended)
   02-root-org-tenant/     # dir/v1 on root org + dedicated filesystem
 scripts/
-  tenant/install-csi.sh   # helm install of the CSI plugin
+  provider/bootstrap-project.sh  # one-time: create the disposable lab project + scoped SA
+  tenant/install-csi.sh          # helm install of the CSI plugin (CSI_VERSION-pinned)
 ```
 
 ## Status

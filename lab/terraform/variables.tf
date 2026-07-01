@@ -56,3 +56,8 @@ variable "allow_ssh_cidrs" {
 variable "owner" {
   default = "weka-lab"
 }
+
+variable "impersonate_service_account" {
+  description = "Optional SA email for Terraform to impersonate (e.g. csi-lab@<project>.iam.gserviceaccount.com). Empty = use your ADC directly. See docs/lab-isolation.md."
+  default     = ""
+}
