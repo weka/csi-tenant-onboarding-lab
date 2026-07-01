@@ -21,8 +21,8 @@ Hand to the tenant (goes into `csi-secret.yaml`):
 | `endpoints` | ≥2 mgmt IPs, e.g. `10.0.0.11:14000,10.0.0.12:14000` |
 | `scheme` | `https` |
 
-**Isolation caveat:** a `regular` user in the root org can **view all filesystems
-cluster-wide** — there is no org boundary. The tenant is fenced only by the
-StorageClass `filesystemName` pin and the FS capacity quota. Use Model B only for
+**Isolation caveat:** a root-org user has **no org boundary** to contain it. The
+`csi` role limits *what* it can do, but the tenant is fenced only by the StorageClass
+`filesystemName` pin and the FS capacity quota. Use Model B only for
 single-tenant/trusted setups; prefer [Model A](../01-org-tenant/) for real
 multi-tenancy.
