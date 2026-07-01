@@ -1,15 +1,14 @@
 # Provider setup — Model B (root org, dedicated filesystem)
 
-Run on the WEKA cluster as ClusterAdmin. **Confirm CLI syntax/role names against
-the WEKA version on the cluster** (see OPEN-QUESTIONS #4).
+Run on the WEKA cluster as ClusterAdmin (in the root org). Verified against WEKA 4.4.10.
 
 ```bash
-# 1. Pre-create a dedicated filesystem for the tenant, with a capacity quota.
+# 1. Pre-create a dedicated filesystem for the tenant.
 #    This FS + the StorageClass pin are the ONLY isolation fence in this model.
-weka fs create tenant-a-fs <fs-group-name> <capacity>
+weka fs add tenant-b-fs default 100GB
 
-# 2. Add a SCOPED user for CSI — a 'regular' (non-admin) user, NOT ClusterAdmin.
-weka user add tenant-a-csi <password> --role regular
+# 2. Add the SCOPED CSI user — the dedicated 'csi' role (least privilege), NOT admin.
+weka user add tenant-b-csi csi <csi-pw>
 ```
 
 Hand to the tenant (goes into `csi-secret.yaml`):

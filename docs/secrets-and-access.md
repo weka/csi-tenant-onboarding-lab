@@ -65,18 +65,23 @@ can operate cluster-wide on WEKA. Replace with one of the two models below.
 
 ## The WEKA role model (why the two models differ)
 
-From WEKA's multi-tenancy design:
+From WEKA's multi-tenancy design (roles confirmed on 4.4.10, `weka user add <name> <role>`):
 
 - **ClusterAdmin** — org-admin of the global org; manages organizations, HW, and
   **fs-groups**; **cannot** view/manage filesystems or users inside other orgs.
-- **OrganizationAdmin** — full admin *within one organization* (its filesystems,
-  users, OBS, NFS perms, LDAP). Cannot see other orgs. **Cannot manage fs-groups**
-  (those stay cluster-level).
+- **OrganizationAdmin** (`orgadmin`) — full admin *within one organization*. Cannot
+  see other orgs. **Cannot manage fs-groups** (those stay cluster-level).
 - **regular** — within its org: view, and create/delete/update filesystems.
 - **readonly** — view only, within its org.
+- **`csi`** — ⭐ **a dedicated, purpose-built role for the CSI plugin.** This is the
+  right least-privilege choice for the tenant's CSI credentials — it grants exactly
+  the operations the provisioner needs (create/delete directories, quotas,
+  snapshots on filesystems) and nothing else. Use it in **both** models.
+- **`s3`** — for S3 access (not relevant here).
 
 Organizations are WEKA's hard multi-tenancy boundary: even a ClusterAdmin cannot
-see inside another org's filesystems/users. That is what Model A buys.
+see inside another org's filesystems/users. That is what Model A buys — combined
+with the `csi` role, the tenant gets least-privilege *and* org isolation.
 
 ---
 

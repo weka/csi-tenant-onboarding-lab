@@ -1,23 +1,27 @@
 # Provider setup — Model A (dedicated WEKA Organization)
 
-Run on the WEKA cluster as ClusterAdmin. **Confirm CLI syntax/role names against
-the WEKA version on the cluster** — the `weka org` / `weka user` interface has
-evolved across versions (see OPEN-QUESTIONS #4).
+Run on the WEKA cluster as ClusterAdmin. Verified against WEKA 4.4.10.
 
 ```bash
-# 1. Create the tenant's organization (hard multi-tenancy boundary).
-#    Even ClusterAdmin cannot see inside it afterward.
-weka org create coupang-tenant-a
+# 1. Create the tenant's organization + its org-admin (one command).
+#    This is a hard multi-tenancy boundary — even ClusterAdmin can't see inside.
+weka org add coupang-tenant-a tenant-a-admin <admin-pw> \
+  --ssd-quota 300GB --total-quota 300GB
 
-# 2. Pre-create the filesystem the tenant's PVCs will carve directories from.
-#    fs-groups are cluster-level (ClusterAdmin owns them); the filesystem itself
-#    lives in the tenant's org. dir/v1 needs the FS to already exist.
-weka fs create tenant-a-fs <fs-group-name> <capacity> --org coupang-tenant-a
+# 2. Switch into the org and pre-create the filesystem the tenant's PVCs will
+#    carve directories from. fs-groups are cluster-level, so use the existing
+#    'default' group; the filesystem itself lives in the org. dir/v1 needs the FS
+#    to already exist.
+weka user login tenant-a-admin <admin-pw> --org coupang-tenant-a
+weka fs add tenant-a-fs default 100GB
 
-# 3. Add a SCOPED user for CSI — OrganizationAdmin within the org, NOT ClusterAdmin.
-#    (A 'regular' org user may also suffice for dir/v1 — verify.)
-weka user add tenant-a-csi <password> --org coupang-tenant-a --role org-admin
+# 3. Add the SCOPED CSI user — the dedicated 'csi' role (least privilege), NOT admin.
+weka user add tenant-a-csi csi <csi-pw>
 ```
+
+> On this SSD-only cluster the module's `default` fs is thick-provisioned to nearly
+> all SSD; free some first with `weka fs update default --total-capacity 200GB`
+> (non-tiered fs: pass only `--total-capacity`, not `--ssd-capacity`).
 
 Hand to the tenant (goes into `csi-secret.yaml`):
 

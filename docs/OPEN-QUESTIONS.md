@@ -40,10 +40,8 @@ clusters"* explicitly names **Coupang + Core42** wanting managed multi-tenant
 composable clusters via the WEKA Operator. If MT 2.0 changes the org/credential
 model, capture the delta here.
 
-## 4. Exact minimum WEKA role — verify against installed version
+## 4. Exact minimum WEKA role — ✅ RESOLVED: the dedicated `csi` role
 
-For `dir/v1`, an **OrganizationAdmin** user (Model A) cleanly scopes the tenant. A
-**regular** (non-admin) org user may also suffice since it only manipulates
-directories/quotas on an existing FS — confirm against the WEKA version on the lab
-cluster. CLI syntax (`weka org`, `weka user add --role …`) has evolved across
-versions; validate before publishing.
+WEKA 4.4.10 has a purpose-built **`csi`** role (`weka user add <name> csi <pw>`) —
+verified in the lab for both models. It is the least-privilege choice; no need for
+OrgAdmin/regular. Model A scopes it to an org; Model B is root-org.

@@ -56,8 +56,11 @@ scripts/
 
 ## Status
 
-Manifests written and verified against the official csi-wekafs examples + WEKA role
-model. **Not yet run end-to-end** on the lab cluster — that's the next step (capture
-output into each example's `verify.md`). Remaining decisions in
-[docs/OPEN-QUESTIONS.md](docs/OPEN-QUESTIONS.md): snapshots, Multi-tenancy 2.0, and
-confirming the exact minimum WEKA role/CLI syntax against the deployed version.
+✅ **Validated end-to-end on a live lab** (2026-07-01): traditional WEKA cluster
+4.4.10.171 on GCP + a single-node k3s tenant, both models provisioning `dir/v1`
+volumes with scoped **`csi`-role** credentials. Evidence in each example's
+`verify.md`; full runbook in [lab/LAB.md](lab/LAB.md). Key finding: WEKA has a
+dedicated **`csi`** role — the least-privilege answer to "not admin credentials."
+
+Remaining (see [docs/OPEN-QUESTIONS.md](docs/OPEN-QUESTIONS.md)): snapshots demo and
+Multi-tenancy 2.0.
