@@ -1,0 +1,99 @@
+/* WEKA-styled technical document — colors pulled from the WEKA brand template
+   theme. Built for code-heavy technical docs (keeps code blocks, tables, and
+   ASCII diagrams intact) — NOT the sales weka-doc-builder template. */
+:root {
+  --weka-purple:    #7C03EC;
+  --weka-purple-lt: #C79FF1;
+  --weka-magenta:   #C81FF7;
+  --weka-coral:     #FF8569;
+  --ink:            #171C20;
+  --muted:          #414649;
+  --line:           #C9C9C9;
+  --cream:          #F2F2EB;
+  --code-bg:        #f5f0fc;
+}
+
+@page { size: Letter; margin: 20mm 18mm 18mm 18mm; }
+
+body {
+  font-family: 'IBM Plex Sans', 'Onest', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--ink);
+  font-size: 10.5pt;
+  line-height: 1.5;
+  max-width: 100%;
+}
+
+h1 {
+  font-family: 'Onest', 'IBM Plex Sans', sans-serif;
+  color: var(--weka-purple);
+  font-size: 25pt;
+  line-height: 1.15;
+  margin: 0 0 4px 0;
+  border-bottom: 3px solid var(--weka-purple);
+  padding-bottom: 8px;
+}
+/* subtitle: the H3 immediately under the H1 */
+h1 + h3 { color: var(--muted); font-weight: 500; font-size: 13pt; margin-top: 6px; border: 0; }
+
+h2 {
+  font-family: 'Onest', 'IBM Plex Sans', sans-serif;
+  color: var(--weka-purple);
+  font-size: 15pt;
+  margin: 1.6em 0 0.5em;
+  padding-left: 10px;
+  border-left: 4px solid var(--weka-purple-lt);
+  page-break-after: avoid;
+}
+h3 { color: var(--muted); font-size: 12pt; margin: 1.1em 0 0.4em; page-break-after: avoid; }
+
+a { color: var(--weka-purple); text-decoration: none; }
+
+strong { color: var(--ink); }
+
+/* inline code */
+code {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', 'DejaVu Sans Mono', monospace;
+  background: var(--code-bg);
+  color: #4a0a8f;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* code blocks — shaded, purple rule, wrap long command lines so nothing clips */
+pre {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--weka-purple);
+  border-radius: 5px;
+  padding: 10px 13px;
+  font-size: 8.6pt;
+  line-height: 1.42;
+  white-space: pre-wrap;
+  word-break: break-word;
+  page-break-inside: avoid;
+}
+pre code { background: none; color: var(--ink); padding: 0; font-size: inherit; }
+
+/* tables — WEKA purple header, zebra rows */
+table { border-collapse: collapse; width: 100%; margin: 0.8em 0; font-size: 9.5pt; page-break-inside: avoid; }
+th { background: var(--weka-purple); color: #fff; text-align: left; padding: 6px 9px; font-weight: 600; }
+td { border: 1px solid var(--line); padding: 6px 9px; vertical-align: top; }
+tr:nth-child(even) td { background: #faf7fe; }
+
+/* blockquotes — coral accent (used for the companion-repo note) */
+blockquote {
+  border-left: 4px solid var(--weka-coral);
+  background: #fff6f3;
+  margin: 1em 0;
+  padding: 8px 14px;
+  color: var(--muted);
+}
+
+hr { border: 0; border-top: 1px solid var(--line); margin: 1.6em 0; }
+
+/* pandoc TOC */
+#TOC { background: #faf7fe; border: 1px solid var(--weka-purple-lt); border-radius: 6px; padding: 10px 18px; font-size: 10pt; }
+#TOC::before { content: "Contents"; display: block; font-family: 'Onest','IBM Plex Sans',sans-serif; color: var(--weka-purple); font-weight: 600; font-size: 12pt; margin-bottom: 4px; }
+#TOC ul { margin: 2px 0; }
+#TOC a { color: var(--muted); }
