@@ -53,6 +53,7 @@ docs/
   csi-howto.md            # ← full how-to walkthrough (source for the PDF)
   csi-howto.pdf           # send-ready PDF
   csi-guidance.md         # short quick-reference guidance
+  tenancy-design-guide.md # decision layer: which model/mode, and where you top out (SKELETON)
   secrets-and-access.md   # exact creds + role scope per model
   architecture.md         # WEKA cluster ⇄ tenant k8s host; where the trust boundary sits
   provider-runbook.md     # what the WEKA cluster operator does to onboard a tenant
